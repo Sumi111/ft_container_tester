@@ -35,5 +35,5 @@ int main()
 	
 	gettimeofday(&exec_time, NULL);
 	double end = exec_time.tv_sec + exec_time.tv_usec;
-	std::cout << std::fixed << std::setprecision(3) << (end - start) / 1000 << " ms" << std::endl;
+	std::cout << std::fixed << std::setprecision(3) << (end - start) / 1000 << std::endl;
 }
