@@ -29,6 +29,9 @@ getEmoji () {
 	case $1 in
 		0) emoji="${GREEN}✅";;
 		1) emoji="${RED}❌";;
+		2) emoji="${RED} 🟢";;
+		2) emoji="${RED}🔴";;
+		
 	esac
 	printf "${BOLD}${emoji}${EOC}"
 }
@@ -67,8 +70,15 @@ print_test_results() {
 				echo -ne "Result: $(getEmoji 0) $DEFAULT |  "
 				x=$(tail -n 1 $TEST_DIR/$2/${file##*/})
 				y=$(tail -n 1 $file)
-				echo -ne "FT Time:$YELLOW"  $x"$DEFAULT |  "
-				echo -ne "STD Time:$YELLOW" $y"$DEFAULT  "
+				z=$(echo "$y / $x" | bc)
+				echo -ne "FT Time:$YELLOW"  $x ms"$DEFAULT |  "
+				echo -ne "STD Time:$YELLOW" $y ms"$DEFAULT |  "
+				if (( $z < 20 )); then
+					echo -ne " Within_limit: $(getEmoji 2) $DEFAULT "
+				else
+					echo -ne " Within_limit: $(getEmoji 1) $DEFAULT "
+				fi
+
 			fi
 			# check_valgrind_report $TEST_DIR/$3/${file##*/}
 			rm diff
